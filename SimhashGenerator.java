@@ -68,5 +68,62 @@ public class SimhashGenerator{
         }
         return sb.toString();//sb returns all neighbor lines joined together as String
     }
+//  This method computes a 64-bit SimHash for a piece of text:similar texts produce similar 64-bit values
+    public long computeSimhash(String text) {
+    	//If string is missing or empty, the method returns 0 because no hash can be computed 
+        if (text == null || text.isEmpty()) {//
+            return 0L;
+        }
+/*even though we have method extractContext save the line in sb(as one big line with spaces  ) 
+we still split into tokens : each words needs to treated independently as SimHash is designed to combine many small token-hashes, not one giant hash.
+Each token contributes to the bitVector)*/
+        String[] tokens = text.split("\\s+");
+        int[] bitVector = new int[64];// indices to represent the bit positions (0–63) of the hash
+//Each token is hashed into a 64-bit hash value using hash64(token)
+        for (String token : tokens) {
+            if (token.isEmpty()) {
+                continue;
+            }
+            long hash = hash64(token); // Using .util.* library: string gets turned into a 64 bit number we get the numeric fingerprint” of that word.
+ //*-----SimHashlook does not read all 64 bits at once so looked at each bit at time so it  needs to update the vector one bit at a time.--------/
+         for (int bit = 0; bit < 64; bit++) {
+     
+        	// : 1L is just 1 stored in a long type
+        	 //  << (left shift operator)take the bits of a and shift them to the left by n positions
+    
+        	// A bitmask → creating a  number that has only one bit turned on all other values are zero other than one 1
+        	 long bitmask = 1L << bit;
+                if ((hash & bitmask) != 0) {//   
+                	/* It compares each bit: AND keeps only the bit that both numbers have ON for not zero
+                	  f AND is non-zero → that bit is 1  If AND is zero → that bit is 0.	 */
+                    bitVector[bit] += 1;  //If the bit was 1: increase  weights stored inside the index 
+                } else {
+                    bitVector[bit] -= 1;  // If the bit was 0:Decrease the weight stored at this bit index
+             
+                }
+              
+            }}
+/*--------- final 64-bit SimHash-----------*/
+        long simhash = 0L;//empty SimHash all bits = 0
+        for (int bit = 0; bit < 64; bit++) {//Loop through all indices (bit positions)
+            if (bitVector[bit] > 0) {//If the value at that index is positive then SimHash bit should be 1
+            	// at the empty SimHash all bits = 0 and push the left side using <<
+            	simhash |= (1L << bit);// creates a mask with only this bit = 1  * |= sets that bit in simhash to 1
+            	
+            }
+        }
+        return simhash;
+    }
+    
+    
 
+
+
+
+
+
+
+
+
+        
     }
