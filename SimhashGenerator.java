@@ -131,11 +131,20 @@ Multiplying h by 31 moves the old hash to a higher place so we can add the new c
   public int hammingDistance(long a, long b) {
         return Long.bitCount(a ^ b);
     }
-
-
-
-
-
-
         
+/* creating an ARRAY of lineSimhash objects.: 
+        big enough to store one LineSimhash object per line Each object holds: 
+        The line number (index) 
+        The SimHash of the lineContent 
+        The SimHash of the lineContext*/ 
+        public LineSimhash[] buildLineSimhashes(List<String> lines, int windowSize) { 
+    LineSimhash[] result = new LineSimhash[lines.size()];
+    for (int i = 0; i < lines.size(); i++) { 
+        String normalizedContent = normalizeLine(lines.get(i));// Normalize the content of the current line
+        String context = extractContext(lines, i, windowSize); //// Extract context text 
+       /*------  Compute a 64-bit SimHash-------*/
+        long contentSimhash = computeSimhash(normalizedContent); 
+        long contextSimhash = computeSimhash(context); 
+        result[i] = new LineSimhash(i, contentSimhash, contextSimhash); }
+        return result;        
     }
