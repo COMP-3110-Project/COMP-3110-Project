@@ -1,4 +1,3 @@
-package grp3110; 
 
 
 import com.github.difflib.DiffUtils;// for using the diff method 
