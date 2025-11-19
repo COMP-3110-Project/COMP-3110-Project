@@ -68,7 +68,7 @@ public class SimhashGenerator{
         }
         return sb.toString();//sb returns all neighbor lines joined together as String
     }
-//  This method computes a 64-bit SimHash for a piece of text:similar texts produce similar 64-bit values
+///  This method computes a 64-bit SimHash for a piece of text:similar texts produce similar 64-bit values
     public long computeSimhash(String text) {
     	//If string is missing or empty, the method returns 0 because no hash can be computed 
         if (text == null || text.isEmpty()) {//
@@ -127,7 +127,10 @@ Multiplying h by 31 moves the old hash to a higher place so we can add the new c
         }
         return h;/ Return the final 64-bit hash value
     }
-
+//(long a, long b: two SimHash values that you want to compare.
+  public int hammingDistance(long a, long b) {
+        return Long.bitCount(a ^ b);
+    }
 
 
 
