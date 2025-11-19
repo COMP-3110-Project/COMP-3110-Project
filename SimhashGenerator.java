@@ -115,9 +115,18 @@ Each token contributes to the bitVector)*/
         return simhash;
     }
     
-    
-
-
+//This converts a string into a 64-bit numeric fingerprint
+    public long hash64(String s) {
+        long h = 1125899906842597L; /// Start hash with a large 64-bit prime number.
+        int len = s.length();// Number of characters in the input string
+        for (int i = 0; i < len; i++) {
+/*s.charAt(i)=the numeric code of the character at position i”
+h is the current hash value.
+Multiplying h by 31 moves the old hash to a higher place so we can add the new character in.*/
+           h = 31L * h + s.charAt(i);//runs once for each character
+        }
+        return h;/ Return the final 64-bit hash value
+    }
 
 
 
