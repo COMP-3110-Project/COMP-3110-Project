@@ -1,3 +1,4 @@
+import java.util.*;
 public class SimhashGenerator{
     public static class LineSimhash {
         public final int index;
@@ -125,7 +126,7 @@ h is the current hash value.
 Multiplying h by 31 moves the old hash to a higher place so we can add the new character in.*/
            h = 31L * h + s.charAt(i);//runs once for each character
         }
-        return h;/ Return the final 64-bit hash value
+        return h;// Return the final 64-bit hash value
     }
 //(long a, long b: two SimHash values that you want to compare.
   public int hammingDistance(long a, long b) {
@@ -147,4 +148,56 @@ Multiplying h by 31 moves the old hash to a higher place so we can add the new c
         long contextSimhash = computeSimhash(context); 
         result[i] = new LineSimhash(i, contentSimhash, contextSimhash); }
         return result;        
+    }
+        /* find the top-k most similar lines in the new file, using SimHash + Hamming distance, while skipping lines that are already mapped */
+    public Map<Integer, List<Candidate>> generateCandidates(
+            List<String> oldLines,
+            List<String> newLines,
+            Set<Integer> mappedOld,
+            Set<Integer> mappedNew,
+            int windowSize,
+            int k//For each old line, keep at most k best candidates from new lines
+    ) {
+        if (mappedOld == null) {
+            mappedOld = Collections.emptySet();
+        }
+        if (mappedNew == null) {
+            mappedNew = Collections.emptySet();
+        }
+//Call buildLineSimhashes would returns an array of LineSimhash objects, one per line
+        LineSimhash[] oldSimhashes = buildLineSimhashes(oldLines, windowSize);
+        LineSimhash[] newSimhashes = buildLineSimhashes(newLines, windowSize);
+
+        Map<Integer, List<Candidate>> result = new HashMap<>();
+
+        for (LineSimhash oldLineHash : oldSimhashes) {
+            int oldIdx = oldLineHash.index;
+            if (mappedOld.contains(oldIdx)) {
+                continue; // skip already mapped old lines
+            } 
+            //use a max-heap of size at most k:
+         //   worst candidate is always on top keep only best (most similar) new lines for each old line.
+          //when  found a better one, we kick out the worst one.
+            PriorityQueue<Candidate> maxHeap = new PriorityQueue<>(k, (a, b) -> Integer.compare(b.hammingDistance, a.hammingDistance));
+            for (LineSimhash newLineHash : newSimhashes) {
+                int newIdx = newLineHash.index;
+                if (mappedNew.contains(newIdx)) {
+                    continue; // skip already mapped new lines
+                }
+                int distance = hammingDistance(oldLineHash.CombinedSimhash, newLineHash.CombinedSimhash);
+                if (maxHeap.size() < k) {
+                    maxHeap.offer(new Candidate(newIdx, distance));
+                } else if (distance < maxHeap.peek().hammingDistance) {
+                    maxHeap.poll();
+                    maxHeap.offer(new Candidate(newIdx, distance));
+                }
+            }
+            // Extract and sort candidates by distance ascending
+            List<Candidate> candidates = new ArrayList<>(maxHeap);
+            candidates.sort(Comparator.comparingInt(c -> c.hammingDistance));
+            result.put(oldIdx, candidates);
+        }
+
+        return result;
+    }
     }
