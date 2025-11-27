@@ -42,3 +42,58 @@ public class SimilarityMetrics {
         // This score is high when distance is low (strings are similar)
         return 1.0 - ((double) distance / maxLen);
     }
+    // ----------------------------------------------------------------------
+    // 2. Context Similarity: Cosine Similarity (Weight: 0.4)
+    // ----------------------------------------------------------------------
+
+    /** Converts a text (context string) into a term frequency vector. */
+    private static Map<String, Integer> getTermFrequencyVector(String text) {
+        Map<String, Integer> vector = new HashMap<>();
+        // Split context text into tokens (words)
+        String[] words = text.split("\\s+");
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                vector.put(word, vector.getOrDefault(word, 0) + 1);
+            }
+        }
+        return vector;
+    }
+
+    /**
+     * Calculates Context Similarity using Cosine Similarity between two context strings.
+     */
+    public static double getContextSimilarity(String context1, String context2) {
+        if (context1.isEmpty() || context2.isEmpty()) return 0.0;
+        
+        Map<String, Integer> vec1 = getTermFrequencyVector(context1);
+        Map<String, Integer> vec2 = getTermFrequencyVector(context2);
+
+        Set<String> intersection = new HashSet<>(vec1.keySet());
+        intersection.retainAll(vec2.keySet());
+        
+        // Calculate Dot Product (Numerator: measures common terms)
+        double dotProduct = 0.0;
+        for (String term : intersection) {
+            dotProduct += vec1.get(term) * vec2.get(term);
+        }
+        
+        // Calculate Magnitude (Denominators: measures the length of each vector)
+        double magnitude1 = 0.0;
+        for (int count : vec1.values()) {
+            magnitude1 += count * count;
+        }
+        double magnitude2 = 0.0;
+        for (int count : vec2.values()) {
+            magnitude2 += count * count;
+        }
+        
+        if (magnitude1 == 0.0 || magnitude2 == 0.0) return 0.0;
+        
+        // Final Cosine Similarity calculation
+        // 
+
+[Image of Cosine Similarity in Vector Space]
+
+        return dotProduct / (Math.sqrt(magnitude1) * Math.sqrt(magnitude2));
+    }
+}
