@@ -28,3 +28,13 @@ public class SimilarityMetrics {
         }
         return costs[n];
     }
+    public static double getContentSimilarity(String s1, String s2) {
+        if (s1.isEmpty() && s2.isEmpty()) return 1.0;
+        int maxLen = Math.max(s1.length(), s2.length());
+        if (maxLen == 0) return 1.0; 
+
+        int distance = calculateLevenshteinDistance(s1, s2);
+        
+        // This score is high when distance is low (strings are similar)
+        return 1.0 - ((double) distance / maxLen);
+    }
