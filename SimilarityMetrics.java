@@ -1,4 +1,5 @@
 //----------------------------------------------------------------------
+//Step Four Part 1
 //Resolve Conflict (Combined Similarity Score)
 // 1. Content Similarity: Normalized Levenshtein Distance (Weight: 0.6)
 // ----------------------------------------------------------------------
