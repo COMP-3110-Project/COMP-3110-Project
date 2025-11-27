@@ -28,6 +28,10 @@ public class SimilarityMetrics {
         }
         return costs[n];
     }
+    /**
+     * Calculates the Content Similarity score (0.0 to 1.0) using normalized LD.
+     * Formula: 1 - (Distance / Max Length)
+     */
     public static double getContentSimilarity(String s1, String s2) {
         if (s1.isEmpty() && s2.isEmpty()) return 1.0;
         int maxLen = Math.max(s1.length(), s2.length());
