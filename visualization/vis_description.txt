@@ -1,0 +1,6 @@
+This visual shows the way our program would work as a real application, 
+displaying both versions of the file a user is working on. 
+It shows line mergers (loss of lines) in red, content changes in blue, 
+and line additions in green, all with directive lines to map each change 
+in the old document to the changes happening in the new document. 
+- Created by Ifechi Ude
