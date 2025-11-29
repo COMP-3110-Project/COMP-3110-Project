@@ -31,7 +31,7 @@ public class LHDiffMain {
             List<String> newNormStrings = new ArrayList<>();
             List<LinesMapping.SettingLineRecord> newRecords = readAndGetRecords(newFile, newNormStrings);
 
-            // Read RAW lines for output filtering
+            // Read RAW lines
             List<String> oldRawLines = Files.readAllLines(oldFile);
             List<String> newRawLines = Files.readAllLines(newFile);
 
@@ -77,15 +77,12 @@ public class LHDiffMain {
             // --- Aggregate Matches ---
             TreeMap<Integer, String> finalOutput = new TreeMap<>();
 
-            // Add Step 2 Anchors
             for (int[] pair : step2.anchors) {
                 finalOutput.put(pair[0] + 1, String.valueOf(pair[1] + 1));
             }
-            // Add Step 4 Matches
             for (Map.Entry<Integer, Integer> entry : step4Matches.entrySet()) {
                 finalOutput.put(entry.getKey() + 1, String.valueOf(entry.getValue() + 1));
             }
-            // Add Step 5 Split Matches
             for (Map.Entry<Integer, List<Integer>> entry : step5Matches.entrySet()) {
                 List<Integer> targets = entry.getValue();
                 Collections.sort(targets);
@@ -95,25 +92,22 @@ public class LHDiffMain {
                 finalOutput.put(entry.getKey() + 1, val);
             }
 
-            // 5. Run Step 6 (Zipper / Gap Filling)
-            // This aligns gaps like header comments or blank lines
+            // 5. Run Step 6 (Zipper)
             runZipperPass(finalOutput, oldRecords.size(), newRecords.size());
 
-            // --- FINAL OUTPUT GENERATION ---
+            // --- FINAL OUTPUT GENERATION (Format: "1 -> 1") ---
             
             // Print Mappings and Deletions
             for (int i = 1; i <= oldRecords.size(); i++) {
                 String oldRaw = oldRawLines.get(i - 1);
-                
-                // FIX: Strictly ignore blank lines even if they are mapped
-                if (oldRaw.trim().isEmpty()) {
-                    continue; 
-                }
+                if (oldRaw.trim().isEmpty()) continue; 
 
                 if (finalOutput.containsKey(i)) {
-                    System.out.println(i + "-" + finalOutput.get(i));
+                    // CHANGE: Output format changed to " -> "
+                    System.out.println(i + " -> " + finalOutput.get(i));
                 } else {
-                    System.out.println(i + "--1"); 
+                    // CHANGE: Output format changed to " -> "
+                    System.out.println(i + " -> -1"); 
                 }
             }
 
@@ -134,14 +128,11 @@ public class LHDiffMain {
             // Print Added lines
             for (int j = 1; j <= newRecords.size(); j++) {
                 String newRaw = newRawLines.get(j - 1);
-                
-                // FIX: Strictly ignore blank lines for additions too
-                if (newRaw.trim().isEmpty()) {
-                    continue;
-                }
+                if (newRaw.trim().isEmpty()) continue;
 
                 if (!mappedNewIndices.contains(j)) {
-                    System.out.println("-1-" + j);
+                    // CHANGE: Output format changed to " -> "
+                    System.out.println("-1 -> " + j);
                 }
             }
 
@@ -150,12 +141,9 @@ public class LHDiffMain {
         }
     }
 
-    /**
-     * Zipper Pass: Fills equal-sized gaps (like headers or blank space between methods)
-     */
     private static void runZipperPass(TreeMap<Integer, String> mapping, int maxOld, int maxNew) {
         List<int[]> anchors = new ArrayList<>();
-        anchors.add(new int[]{0, 0}); // Start Virtual Anchor
+        anchors.add(new int[]{0, 0}); 
 
         for (Map.Entry<Integer, String> entry : mapping.entrySet()) {
             String val = entry.getValue();
@@ -163,7 +151,7 @@ public class LHDiffMain {
                 anchors.add(new int[]{entry.getKey(), Integer.parseInt(val)});
             }
         }
-        anchors.add(new int[]{maxOld + 1, maxNew + 1}); // End Virtual Anchor
+        anchors.add(new int[]{maxOld + 1, maxNew + 1});
         anchors.sort(Comparator.comparingInt(a -> a[0]));
 
         for (int i = 0; i < anchors.size() - 1; i++) {
@@ -186,14 +174,11 @@ public class LHDiffMain {
         }
     }
 
-    // --- Helpers ---
-
-    private static List<LinesMapping.SettingLineRecord> readAndGetRecords(Path p, List<String> rawList)
-            throws Exception {
+    // --- Helpers (Same as before) ---
+    private static List<LinesMapping.SettingLineRecord> readAndGetRecords(Path p, List<String> rawList) throws Exception {
         JavaLineNormalizer.StatefulNormalizer norm = new JavaLineNormalizer.StatefulNormalizer();
         List<LinesMapping.SettingLineRecord> recs = new ArrayList<>();
         List<String> lines = java.nio.file.Files.readAllLines(p);
-
         for (int i = 0; i < lines.size(); i++) {
             String n = norm.normalizeLine(lines.get(i));
             rawList.add(n);
@@ -202,8 +187,7 @@ public class LHDiffMain {
         return recs;
     }
 
-    private static List<MappingResolver.SettingLineRecord> convertToResolverRecords(
-            List<LinesMapping.SettingLineRecord> src) {
+    private static List<MappingResolver.SettingLineRecord> convertToResolverRecords(List<LinesMapping.SettingLineRecord> src) {
         List<MappingResolver.SettingLineRecord> out = new ArrayList<>();
         for (LinesMapping.SettingLineRecord s : src) {
             out.add(new MappingResolver.SettingLineRecord(s.originalLineNumber - 1, s.normalized, ""));
@@ -211,8 +195,7 @@ public class LHDiffMain {
         return out;
     }
 
-    private static Map<Integer, List<MappingResolver.Candidate>> convertToResolverCandidates(
-            Map<Integer, List<SimhashGenerator.LineSimhash.Candidate>> src) {
+    private static Map<Integer, List<MappingResolver.Candidate>> convertToResolverCandidates(Map<Integer, List<SimhashGenerator.LineSimhash.Candidate>> src) {
         Map<Integer, List<MappingResolver.Candidate>> out = new HashMap<>();
         for (Map.Entry<Integer, List<SimhashGenerator.LineSimhash.Candidate>> e : src.entrySet()) {
             List<MappingResolver.Candidate> list = new ArrayList<>();
