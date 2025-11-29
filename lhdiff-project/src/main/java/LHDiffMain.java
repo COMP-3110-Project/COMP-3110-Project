@@ -31,7 +31,7 @@ public class LHDiffMain {
             List<String> newNormStrings = new ArrayList<>();
             List<LinesMapping.SettingLineRecord> newRecords = readAndGetRecords(newFile, newNormStrings);
 
-            // Read RAW lines for final output filtering
+            // Read RAW lines for output filtering
             List<String> oldRawLines = Files.readAllLines(oldFile);
             List<String> newRawLines = Files.readAllLines(newFile);
 
@@ -74,7 +74,7 @@ public class LHDiffMain {
                     step2.unmappedOld, 
                     step2.unmappedNew);
 
-            // --- Aggregate Matches for Step 6 ---
+            // --- Aggregate Matches ---
             TreeMap<Integer, String> finalOutput = new TreeMap<>();
 
             // Add Step 2 Anchors
@@ -96,21 +96,24 @@ public class LHDiffMain {
             }
 
             // 5. Run Step 6 (Zipper / Gap Filling)
-            // This fixes the issue where mismatched comments at the start of the file (1-1)
-            // are marked as delete/add instead of mapped.
+            // This aligns gaps like header comments or blank lines
             runZipperPass(finalOutput, oldRecords.size(), newRecords.size());
 
-            // --- Final Output Generation ---
+            // --- FINAL OUTPUT GENERATION ---
             
             // Print Mappings and Deletions
             for (int i = 1; i <= oldRecords.size(); i++) {
+                String oldRaw = oldRawLines.get(i - 1);
+                
+                // FIX: Strictly ignore blank lines even if they are mapped
+                if (oldRaw.trim().isEmpty()) {
+                    continue; 
+                }
+
                 if (finalOutput.containsKey(i)) {
                     System.out.println(i + "-" + finalOutput.get(i));
                 } else {
-                    String raw = oldRawLines.get(i - 1);
-                    if (!raw.trim().isEmpty()) {
-                        System.out.println(i + "--1"); 
-                    }
+                    System.out.println(i + "--1"); 
                 }
             }
 
@@ -130,11 +133,15 @@ public class LHDiffMain {
 
             // Print Added lines
             for (int j = 1; j <= newRecords.size(); j++) {
+                String newRaw = newRawLines.get(j - 1);
+                
+                // FIX: Strictly ignore blank lines for additions too
+                if (newRaw.trim().isEmpty()) {
+                    continue;
+                }
+
                 if (!mappedNewIndices.contains(j)) {
-                    String raw = newRawLines.get(j - 1);
-                    if (!raw.trim().isEmpty()) {
-                        System.out.println("-1-" + j);
-                    }
+                    System.out.println("-1-" + j);
                 }
             }
 
@@ -144,30 +151,19 @@ public class LHDiffMain {
     }
 
     /**
-     * Step 6: Zipper Pass.
-     * Looks for gaps between mapped anchors. If the gap size in Old equals the gap size in New,
-     * it linearly maps the lines in between, effectively aligning unmapped comments/whitespace 
-     * based on surrounding context.
+     * Zipper Pass: Fills equal-sized gaps (like headers or blank space between methods)
      */
     private static void runZipperPass(TreeMap<Integer, String> mapping, int maxOld, int maxNew) {
-        // Collect all single-line mappings (ignore splits for zipper anchor purposes)
         List<int[]> anchors = new ArrayList<>();
-        
-        // Add virtual start anchor (0,0)
-        anchors.add(new int[]{0, 0});
+        anchors.add(new int[]{0, 0}); // Start Virtual Anchor
 
         for (Map.Entry<Integer, String> entry : mapping.entrySet()) {
             String val = entry.getValue();
-            // Skip splits (ranges) for anchoring, only use 1-to-1
             if (!val.contains("-")) {
                 anchors.add(new int[]{entry.getKey(), Integer.parseInt(val)});
             }
         }
-
-        // Add virtual end anchor
-        anchors.add(new int[]{maxOld + 1, maxNew + 1});
-
-        // Sort by Old line index
+        anchors.add(new int[]{maxOld + 1, maxNew + 1}); // End Virtual Anchor
         anchors.sort(Comparator.comparingInt(a -> a[0]));
 
         for (int i = 0; i < anchors.size() - 1; i++) {
@@ -182,13 +178,9 @@ public class LHDiffMain {
             int oldGapSize = Math.max(0, oldGapEnd - oldGapStart + 1);
             int newGapSize = Math.max(0, newGapEnd - newGapStart + 1);
 
-            // If gaps are identical in size and > 0, zipper them
             if (oldGapSize > 0 && oldGapSize == newGapSize) {
                 for (int k = 0; k < oldGapSize; k++) {
-                    int mapOld = oldGapStart + k;
-                    int mapNew = newGapStart + k;
-                    // Only add if not already present (though logic suggests it shouldn't be)
-                    mapping.putIfAbsent(mapOld, String.valueOf(mapNew));
+                    mapping.putIfAbsent(oldGapStart + k, String.valueOf(newGapStart + k));
                 }
             }
         }

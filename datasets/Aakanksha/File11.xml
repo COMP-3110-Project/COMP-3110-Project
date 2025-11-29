@@ -8,5 +8,6 @@
     <LOCATION ORIG="7" NEW="7" />
     <LOCATION ORIG="9" NEW="9" />
     <LOCATION ORIG="10" NEW="10" />
+    <LOCATION ORIG="11" NEW="-1" />
   </VERSION>
 </TEST>
