@@ -2,18 +2,23 @@
  <VERSION NUMBER="1" CHECKED="TRUE">
    <LOCATION ORIG="1" NEW="1" />
    <LOCATION ORIG="2" NEW="2" />
-   <LOCATION ORIG="3" NEW="3" /> <!-- Content changed -->
-   <LOCATION ORIG="4" NEW="-1" /> <!-- Line 4 (for loop) deleted from old context -->
-   <LOCATION ORIG="5" NEW="-1" /> <!-- Line 5 (println) deleted -->
-   <LOCATION ORIG="6" NEW="-1" /> <!-- Line 6 (comment) deleted -->
-   <LOCATION ORIG="7" NEW="7" /> <!-- Content changed -->
-   <LOCATION ORIG="8" NEW="8" /> <!-- Content changed -->
-   <LOCATION ORIG="9" NEW="-1" /> <!-- Line 9 (comment) deleted -->
-   <LOCATION ORIG="10" NEW="10" /> <!-- Content changed -->
-   <LOCATION ORIG="11" NEW="11" />
-   <LOCATION ORIG="-1" NEW="4" /> <!-- New line added -->
-   <LOCATION ORIG="-1" NEW="5" /> <!-- New line added -->
-   <LOCATION ORIG="-1" NEW="6" /> <!-- New line added -->
-   <LOCATION ORIG="-1" NEW="9" /> <!-- New line added at 9 -->
+   <LOCATION ORIG="3" NEW="3" /> 
+   <LOCATION ORIG="4" NEW="4" />
+   <LOCATION ORIG="5" NEW="10" /> 
+   <LOCATION ORIG="6" NEW="-1" /> 
+   <LOCATION ORIG="7" NEW="-1" /> 
+   <LOCATION ORIG="8" NEW="12" /> 
+   <LOCATION ORIG="9" NEW="13" /> 
+   <LOCATION ORIG="10" NEW="14" /> 
+   <LOCATION ORIG="11" NEW="-1" />
+   <LOCATION ORIG="12" NEW="15" /> 
+   <LOCATION ORIG="13" NEW="16" /> 
+   <LOCATION ORIG="14" NEW="17" /> 
+   <LOCATION ORIG="15" NEW="18" /> 
+   <LOCATION ORIG="-1" NEW="5" />
+   <LOCATION ORIG="-1" NEW="6" />
+   <LOCATION ORIG="-1" NEW="7" />
+   <LOCATION ORIG="-1" NEW="8" />
+   <LOCATION ORIG="-1" NEW="9" />
 </VERSION>
 </TEST>
