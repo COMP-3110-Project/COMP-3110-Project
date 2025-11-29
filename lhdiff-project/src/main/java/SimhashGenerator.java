@@ -189,7 +189,7 @@ public class SimhashGenerator {
          * find the top-k most similar lines in the new file, using SimHash + Hamming
          * distance, while skipping lines that are already mapped
          */
-        public Map<Integer, List<Candidate>> generateCandidates(
+        public static Map<Integer, List<Candidate>> generateCandidates(
                 List<String> oldLines,
                 List<String> newLines,
                 Set<Integer> mappedOld,
@@ -205,8 +205,14 @@ public class SimhashGenerator {
             }
             // Call buildLineSimhashes would returns an array of LineSimhash objects, one
             // per line
-            LineSimhash[] oldSimhashes = buildLineSimhashes(oldLines, windowSize);
-            LineSimhash[] newSimhashes = buildLineSimhashes(newLines, windowSize);
+            
+            // NOTE: The methods buildLineSimhashes, normalizeLine, extractContext, etc.
+            // are NOT static, but are required here. This indicates a design flaw.
+            // For now, we instantiate a dummy LineSimhash object to call the non-static methods.
+            LineSimhash dummy = new LineSimhash(0, 0L, 0L);
+            
+            LineSimhash[] oldSimhashes = dummy.buildLineSimhashes(oldLines, windowSize);
+            LineSimhash[] newSimhashes = dummy.buildLineSimhashes(newLines, windowSize);
 
             Map<Integer, List<Candidate>> result = new HashMap<>();
 
@@ -226,7 +232,7 @@ public class SimhashGenerator {
                     if (mappedNew.contains(newIdx)) {
                         continue; // skip already mapped new lines
                     }
-                    int distance = hammingDistance(oldLineHash.CombinedSimhash, newLineHash.CombinedSimhash);
+                    int distance = dummy.hammingDistance(oldLineHash.CombinedSimhash, newLineHash.CombinedSimhash);
                     if (maxHeap.size() < k) {
                         maxHeap.offer(new Candidate(newIdx, distance));
                     } else if (distance < maxHeap.peek().hammingDistance) {

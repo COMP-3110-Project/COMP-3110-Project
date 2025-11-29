@@ -29,6 +29,7 @@ public class LHDiffMain {
             
             // 1. Run Step 1 & 2 (Diff)
             System.out.println("Running Step 1 & 2...");
+            // NOTE: You still need to ensure LinesMapping.java defines a 'public Step2Result run(Path, Path)' method.
             Step2Result step2 = linesMapping.run(oldFile, newFile);
 
             // Re-read/Normalize to get the lists needed for subsequent steps
@@ -49,8 +50,8 @@ public class LHDiffMain {
                 mappedNew.add(pair[1]);
             }
 
-            Map<Integer, List<SimhashGenerator.Candidate>> candidates = 
-                simhashGenerator.generateCandidates(
+            Map<Integer, List<SimhashGenerator.LineSimhash.Candidate>> candidates = 
+                SimhashGenerator.LineSimhash.generateCandidates(
                     oldNormStrings, 
                     newNormStrings, 
                     mappedOld, 
@@ -160,11 +161,11 @@ public class LHDiffMain {
         return out;
     }
 
-    private static Map<Integer, List<MappingResolver.Candidate>> convertToResolverCandidates(Map<Integer, List<SimhashGenerator.Candidate>> src) {
+    private static Map<Integer, List<MappingResolver.Candidate>> convertToResolverCandidates(Map<Integer, List<SimhashGenerator.LineSimhash.Candidate>> src) {
         Map<Integer, List<MappingResolver.Candidate>> out = new HashMap<>();
-        for(Map.Entry<Integer, List<SimhashGenerator.Candidate>> e : src.entrySet()) {
+        for(Map.Entry<Integer, List<SimhashGenerator.LineSimhash.Candidate>> e : src.entrySet()) {
             List<MappingResolver.Candidate> list = new ArrayList<>();
-            for(SimhashGenerator.Candidate c : e.getValue()) {
+            for(SimhashGenerator.LineSimhash.Candidate c : e.getValue()) {
                 list.add(new MappingResolver.Candidate(c.newIndex, c.hammingDistance));
             }
             out.put(e.getKey(), list);
