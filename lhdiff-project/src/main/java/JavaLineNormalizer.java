@@ -149,14 +149,12 @@ public class JavaLineNormalizer {
 
             // Post-process normalized line: remove braces/semicolons, collapse whitespace, lowercase
             String result = out.toString();
-            // Keep braces ({ and }) to act as structural anchors for the diff algorithm.
+            // Keep braces ({ and }) but remove semicolons.
             result = result.replace(";", "");
 
-            // Standardize method names to force alignment
-            // This replaces any sequence of characters followed immediately by '(' 
-            // (a function/method call structure) with a generic 'func_id('.
-            // This ensures method signatures (e.g., calculateSum(int a, b)) normalize identically.
-            result = result.replaceAll("[a-zA-Z_$][a-zA-Z0-9_$]*\\s*\\(", "func_id(");
+            // ADDED Standardize method/function calls to force alignment
+            // This replaces any valid Java identifier followed by '(' with 'func_id('.
+            result = result.replaceAll("\\b[a-zA-Z_][a-zA-Z0-9_]*\\s*\\(", "func_id(");
 
             result = result.trim().replaceAll("\\s+", " ");
             result = result.toLowerCase();
@@ -165,7 +163,8 @@ public class JavaLineNormalizer {
             // If the line is empty after cleaning, use a special token "BLANK" to ensure 
             // all comments/blank lines align with each other, rather than misaligning code.
             if (result.isEmpty()) {
-                return "BLANK"; 
+                // Using a unique token ensures blank/comment lines map to each other, not code lines
+                return "BLANK_TOKEN"; 
             }
 
             return result;
