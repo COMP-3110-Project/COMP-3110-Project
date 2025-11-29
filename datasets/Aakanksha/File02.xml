@@ -1,0 +1,19 @@
+<TEST NAME="TEST02" FILE="File02.java">
+ <VERSION NUMBER="1" CHECKED="TRUE">
+   <LOCATION ORIG="1" NEW="1" />
+   <LOCATION ORIG="2" NEW="2" />
+   <LOCATION ORIG="3" NEW="3" /> <!-- Content changed -->
+   <LOCATION ORIG="4" NEW="-1" /> <!-- Line 4 (for loop) deleted from old context -->
+   <LOCATION ORIG="5" NEW="-1" /> <!-- Line 5 (println) deleted -->
+   <LOCATION ORIG="6" NEW="-1" /> <!-- Line 6 (comment) deleted -->
+   <LOCATION ORIG="7" NEW="7" /> <!-- Content changed -->
+   <LOCATION ORIG="8" NEW="8" /> <!-- Content changed -->
+   <LOCATION ORIG="9" NEW="-1" /> <!-- Line 9 (comment) deleted -->
+   <LOCATION ORIG="10" NEW="10" /> <!-- Content changed -->
+   <LOCATION ORIG="11" NEW="11" />
+   <LOCATION ORIG="-1" NEW="4" /> <!-- New line added -->
+   <LOCATION ORIG="-1" NEW="5" /> <!-- New line added -->
+   <LOCATION ORIG="-1" NEW="6" /> <!-- New line added -->
+   <LOCATION ORIG="-1" NEW="9" /> <!-- New line added at 9 -->
+</VERSION>
+</TEST>
