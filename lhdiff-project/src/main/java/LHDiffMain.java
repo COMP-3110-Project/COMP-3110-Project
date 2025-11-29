@@ -6,7 +6,6 @@ import java.util.*;
 public class LHDiffMain {
 
     public static void main(String[] args) {
-        // Hardcoded paths for testing, or use args
         if (args.length < 2) {
             System.out.println("Usage: java LHDiffMain <OldFile> <NewFile>");
             return;
@@ -22,38 +21,26 @@ public class LHDiffMain {
             MappingResolver mappingResolver = new MappingResolver();
             Step5LineSplitDetector splitDetector = new Step5LineSplitDetector();
 
-            // We need to capture the raw Normalized Lists to pass to Step 3, 4, 5
-            // LinesMapping.run does this internally, so we might need to modify
-            // LinesMapping
-            // OR simply re-normalize here for the context of Main.
-            // For simplicity, let's rely on LinesMapping to give us the anchors,
-            // and we re-read files for the raw strings needed for context.
-
             // 1. Run Step 1 & 2 (Diff)
-            System.out.println("Running Step 1 & 2...");
-            // NOTE: You still need to ensure LinesMapping.java defines a 'public
-            // Step2Result run(Path, Path)' method.
             Step2Result step2 = linesMapping.run(oldFile, newFile);
 
-            // Re-read/Normalize to get the lists needed for subsequent steps
+            // Re-read/Normalize
             List<String> oldNormStrings = new ArrayList<>();
             List<LinesMapping.SettingLineRecord> oldRecords = readAndGetRecords(oldFile, oldNormStrings);
 
             List<String> newNormStrings = new ArrayList<>();
             List<LinesMapping.SettingLineRecord> newRecords = readAndGetRecords(newFile, newNormStrings);
 
-            // FIX: Read Raw Lines to pass to Step 4 for accurate Context Similarity
+            // Read RAW lines for final output filtering
             List<String> oldRawLines = Files.readAllLines(oldFile);
             List<String> newRawLines = Files.readAllLines(newFile);
 
             // 2. Run Step 3 (Candidate Generation)
-            System.out.println("Running Step 3...");
             Set<Integer> mappedOld = new HashSet<>();
             Set<Integer> mappedNew = new HashSet<>();
 
-            // Fill mapped sets from Step 2 Anchors
             for (int[] pair : step2.anchors) {
-                mappedOld.add(pair[0]); // Index in list (0-based)
+                mappedOld.add(pair[0]); 
                 mappedNew.add(pair[1]);
             }
 
@@ -63,84 +50,71 @@ public class LHDiffMain {
                             newNormStrings,
                             mappedOld,
                             mappedNew,
-                            4, // Window Size
-                            15 // K candidates
+                            4, 
+                            15 
                     );
 
             // 3. Run Step 4 (Resolve Conflicts)
-            System.out.println("Running Step 4...");
-
-            // Convert simple String lists to SettingLineRecord for MappingResolver
-            // Note: MappingResolver expects its own inner class SettingLineRecord or the
-            // one from LinesMapping.
-            // To make types compatible, let's adapt:
             List<MappingResolver.SettingLineRecord> oldRecs4 = convertToResolverRecords(oldRecords);
             List<MappingResolver.SettingLineRecord> newRecs4 = convertToResolverRecords(newRecords);
-
-            // Convert SimHash candidates to Resolver candidates
             Map<Integer, List<MappingResolver.Candidate>> resolverCandidates = convertToResolverCandidates(candidates);
 
             Map<Integer, Integer> step4Matches = mappingResolver.resolveCandidates(
                     oldRecs4, newRecs4,
-                    oldRawLines, // FIX: Pass RAW lines
+                    oldRawLines, 
                     newRawLines,
                     resolverCandidates,
                     step2.unmappedOld,
                     step2.unmappedNew);
 
             // 4. Run Step 5 (Detect Line Splits)
-            System.out.println("Running Step 5...");
             Map<Integer, List<Integer>> step5Matches = splitDetector.detectSplits(
                     oldRecords,
                     newRecords,
-                    step2.unmappedOld, // This set is modified inside the method
+                    step2.unmappedOld, 
                     step2.unmappedNew);
 
-            // --- Final Output Generation ---
-            System.out.println("\n=== Final Mapping Results ===");
-
-            // Combine all results into a sorted map for display
-            // Key: Old Line Number (1-based), Value: String representation of New Line(s)
+            // --- Aggregate Matches for Step 6 ---
             TreeMap<Integer, String> finalOutput = new TreeMap<>();
 
             // Add Step 2 Anchors
             for (int[] pair : step2.anchors) {
-                // +1 for 1-based line numbers in output
                 finalOutput.put(pair[0] + 1, String.valueOf(pair[1] + 1));
             }
-
             // Add Step 4 Matches
             for (Map.Entry<Integer, Integer> entry : step4Matches.entrySet()) {
                 finalOutput.put(entry.getKey() + 1, String.valueOf(entry.getValue() + 1));
             }
-
             // Add Step 5 Split Matches
             for (Map.Entry<Integer, List<Integer>> entry : step5Matches.entrySet()) {
                 List<Integer> targets = entry.getValue();
                 Collections.sort(targets);
-
-                // Format as range (e.g., "20-22") or single number
-                String val;
-                if (targets.size() == 1) {
-                    val = String.valueOf(targets.get(0) + 1);
-                } else {
-                    int start = targets.get(0) + 1;
-                    int end = targets.get(targets.size() - 1) + 1;
-                    val = start + "-" + end;
-                }
+                String val = (targets.size() == 1) ? 
+                    String.valueOf(targets.get(0) + 1) : 
+                    (targets.get(0) + 1) + "-" + (targets.get(targets.size() - 1) + 1);
                 finalOutput.put(entry.getKey() + 1, val);
             }
 
-            // Print Old -> New mappings and Old -> Deleted mappings
+            // 5. Run Step 6 (Zipper / Gap Filling)
+            // This fixes the issue where mismatched comments at the start of the file (1-1)
+            // are marked as delete/add instead of mapped.
+            runZipperPass(finalOutput, oldRecords.size(), newRecords.size());
+
+            // --- Final Output Generation ---
+            
+            // Print Mappings and Deletions
             for (int i = 1; i <= oldRecords.size(); i++) {
                 if (finalOutput.containsKey(i)) {
                     System.out.println(i + "-" + finalOutput.get(i));
                 } else {
-                    System.out.println(i + "--1"); // Deleted
+                    String raw = oldRawLines.get(i - 1);
+                    if (!raw.trim().isEmpty()) {
+                        System.out.println(i + "--1"); 
+                    }
                 }
             }
 
-            // Identify mapped new indices to find Added lines
+            // Calculate mapped new indices
             Set<Integer> mappedNewIndices = new HashSet<>();
             for (String val : finalOutput.values()) {
                 if (val.contains("-")) {
@@ -154,10 +128,13 @@ public class LHDiffMain {
                 }
             }
 
-            // Print Added lines (New lines not in mapping)
+            // Print Added lines
             for (int j = 1; j <= newRecords.size(); j++) {
                 if (!mappedNewIndices.contains(j)) {
-                    System.out.println("-1-" + j);
+                    String raw = newRawLines.get(j - 1);
+                    if (!raw.trim().isEmpty()) {
+                        System.out.println("-1-" + j);
+                    }
                 }
             }
 
@@ -166,7 +143,58 @@ public class LHDiffMain {
         }
     }
 
-    // --- Helpers to bridge the Gap between classes ---
+    /**
+     * Step 6: Zipper Pass.
+     * Looks for gaps between mapped anchors. If the gap size in Old equals the gap size in New,
+     * it linearly maps the lines in between, effectively aligning unmapped comments/whitespace 
+     * based on surrounding context.
+     */
+    private static void runZipperPass(TreeMap<Integer, String> mapping, int maxOld, int maxNew) {
+        // Collect all single-line mappings (ignore splits for zipper anchor purposes)
+        List<int[]> anchors = new ArrayList<>();
+        
+        // Add virtual start anchor (0,0)
+        anchors.add(new int[]{0, 0});
+
+        for (Map.Entry<Integer, String> entry : mapping.entrySet()) {
+            String val = entry.getValue();
+            // Skip splits (ranges) for anchoring, only use 1-to-1
+            if (!val.contains("-")) {
+                anchors.add(new int[]{entry.getKey(), Integer.parseInt(val)});
+            }
+        }
+
+        // Add virtual end anchor
+        anchors.add(new int[]{maxOld + 1, maxNew + 1});
+
+        // Sort by Old line index
+        anchors.sort(Comparator.comparingInt(a -> a[0]));
+
+        for (int i = 0; i < anchors.size() - 1; i++) {
+            int[] curr = anchors.get(i);
+            int[] next = anchors.get(i+1);
+
+            int oldGapStart = curr[0] + 1;
+            int oldGapEnd = next[0] - 1;
+            int newGapStart = curr[1] + 1;
+            int newGapEnd = next[1] - 1;
+
+            int oldGapSize = Math.max(0, oldGapEnd - oldGapStart + 1);
+            int newGapSize = Math.max(0, newGapEnd - newGapStart + 1);
+
+            // If gaps are identical in size and > 0, zipper them
+            if (oldGapSize > 0 && oldGapSize == newGapSize) {
+                for (int k = 0; k < oldGapSize; k++) {
+                    int mapOld = oldGapStart + k;
+                    int mapNew = newGapStart + k;
+                    // Only add if not already present (though logic suggests it shouldn't be)
+                    mapping.putIfAbsent(mapOld, String.valueOf(mapNew));
+                }
+            }
+        }
+    }
+
+    // --- Helpers ---
 
     private static List<LinesMapping.SettingLineRecord> readAndGetRecords(Path p, List<String> rawList)
             throws Exception {
@@ -186,10 +214,6 @@ public class LHDiffMain {
             List<LinesMapping.SettingLineRecord> src) {
         List<MappingResolver.SettingLineRecord> out = new ArrayList<>();
         for (LinesMapping.SettingLineRecord s : src) {
-            // Passing empty simhash string as it's not strictly used in resolveCandidates
-            // (calculated internally or separate)
-            // Or if MappingResolver needs it, we might need to compute it.
-            // Based on MappingResolver code, it calculates similarity on fly.
             out.add(new MappingResolver.SettingLineRecord(s.originalLineNumber - 1, s.normalized, ""));
         }
         return out;
