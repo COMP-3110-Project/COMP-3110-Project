@@ -16,8 +16,6 @@
 <LOCATION ORIG="10" NEW="35" />
 <LOCATION ORIG="11" NEW="9" />
 <LOCATION ORIG="12" NEW="37" /> <!---merges directly into the analyzeArray method-->
-
-
 <LOCATION ORIG="13" NEW="43" />
 <LOCATION ORIG="14" NEW="12" />
 
@@ -28,6 +26,16 @@
 <LOCATION ORIG="18" NEW="17" />
 <LOCATION ORIG="19" NEW="18" />
 
+<LOCATION ORIG="20" NEW="20" /> <!---method header lines ---->
+
+<LOCATION ORIG="21" NEW="25" />  
+<LOCATION ORIG="22" NEW="26" />
+<LOCATION ORIG="23" NEW="27" />
+<LOCATION ORIG="24" NEW="28" />
+<LOCATION ORIG="25" NEW="29" />
+<LOCATION ORIG="26" NEW="30" />
+
+    
 
 
 
@@ -59,6 +67,11 @@
 <LOCATION ORIG="-1" NEW="11" />
 <LOCATION ORIG="-1" NEW="13" />
 <LOCATION ORIG="-1" NEW="19" />
+
+<LOCATION ORIG="-1" NEW="21" />
+<LOCATION ORIG="-1" NEW="23" />
+<LOCATION ORIG="-1" NEW="24" />
+<LOCATION ORIG="-1" NEW="31" /> 
     
       </VERSION>
 </TEST>
