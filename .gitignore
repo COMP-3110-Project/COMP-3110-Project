@@ -1,0 +1,16 @@
+# ------------------------------------
+# macOS system files
+# ------------------------------------
+.DS_Store
+# Resource forks or other metadata
+._*
+
+# ------------------------------------
+# Maven build artifacts
+# ------------------------------------
+# The 'target' folder created by Maven (contains compiled classes and JARs)
+target/
+
+# Log files and temporary files
+*.log
+*.tmp
