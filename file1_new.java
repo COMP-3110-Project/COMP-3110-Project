@@ -2,12 +2,12 @@ public class file1{
     private int day;
     private int month;
     private int year;
-    file1_old(int day, int month, int year) {
+    file1(int day, int month, int year) {
         this.day = day;
         this.month = month;
         this.year = year;
     }
-    public file1_old(file1_old p2) {
+    public file1(file1_old p2) {
         this.day = p2.day;
         this.month = p2.month;
         this.year = p2.year;
