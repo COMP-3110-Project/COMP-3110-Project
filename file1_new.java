@@ -1,4 +1,4 @@
-public class file1_new {
+public class file1{
     private int day;
     private int month;
     private int year;
