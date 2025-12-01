@@ -7,5 +7,7 @@ class File07:
         # Validating the input value
         if value > 0:
             print("The provided value is positive:", value)  # Indentation, content changed
+        elif value < 0:
+            print("Value is negative.")  # New comment
         else:
-            print("Value is zero or negative.")  # New comment
+            print("Value is zero.")

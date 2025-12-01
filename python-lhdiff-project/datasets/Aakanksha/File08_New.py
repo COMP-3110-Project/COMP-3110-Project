@@ -1,5 +1,7 @@
 # File08_New.py - Mixed Complex Changes
 
+from time import time
+
 class File08:
     def __init__(self):
         self.counter = 0
@@ -15,3 +17,8 @@ class File08:
         self.counter += 1
         current_count = f"Current count: {self.counter}"  # Line merged
         print(current_count)  # Line merged
+
+    def decrement(self):  # Added method
+        self.counter -= 1
+        current_count = f"Current count: {self.counter}"
+        print(current_count) 

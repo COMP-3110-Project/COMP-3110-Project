@@ -7,4 +7,5 @@ class File04:
         connection_string += f"{username}?password={password}&useSSL=false"
 
         print("Connecting to:", connection_string)
+        print("Connection established.")
         # More code...
