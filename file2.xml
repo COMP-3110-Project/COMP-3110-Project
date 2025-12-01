@@ -1,0 +1,48 @@
+<TEST NAME="TEST_file2" FILE="file2.java">
+  <VERSION NUMBER="1" CHECKED="TRUE">
+
+<LOCATION ORIG="1" NEW="1" /> <!-- Unchanged line -->
+ 
+<!-- main() now at bottom in New file-->
+<LOCATION ORIG="2" NEW="37" />
+<LOCATION ORIG="3" NEW="38" />
+<LOCATION ORIG="4" NEW="40" />
+<LOCATION ORIG="5" NEW="41" />
+<LOCATION ORIG="6" NEW="39" />
+<LOCATION ORIG="7" NEW="43" />
+<LOCATION ORIG="8" NEW="44" />
+
+<LOCATION ORIG="9" NEW="21" />
+<LOCATION ORIG="10" NEW="22" />
+<LOCATION ORIG="11" NEW="23" />
+<LOCATION ORIG="12" NEW="24" />
+<LOCATION ORIG="13" NEW="25" />
+<LOCATION ORIG="14" NEW="26" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<LOCATION ORIG="-1" NEW="42" />
+  
+
+
+
+
+</VERSION>
+</TEST>
