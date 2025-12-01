@@ -7,7 +7,7 @@ public class file1{
         this.month = month;
         this.year = year;
     }
-    public file1(file1_old p2) {
+    public file1(file1 p2) {
         this.day = p2.day;
         this.month = p2.month;
         this.year = p2.year;
