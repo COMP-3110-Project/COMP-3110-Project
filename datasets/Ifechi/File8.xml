@@ -9,10 +9,10 @@
         <LOCATION ORIG="7" NEW="7" />
         <LOCATION ORIG="8" NEW="8" />
         <LOCATION ORIG="9" NEW="9" />
-        <LOCATION ORIG="-1" NEW="10" /> <!-- Comment added -->
         <LOCATION ORIG="10" NEW="11" />
         <LOCATION ORIG="11" NEW="12" />
         <LOCATION ORIG="12" NEW="13" />
         <LOCATION ORIG="13" NEW="14" />
+        <LOCATION ORIG="-1" NEW="10" /> <!-- Comment added -->
     </VERSION>
 </TEST>
