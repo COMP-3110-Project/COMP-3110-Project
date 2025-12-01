@@ -1,13 +1,13 @@
-public class file1_old {
+public class file1{
     private int day;
     private int month;
     private int year;
-    file1_old(int day, int month, int year) {
+    file1(int day, int month, int year) {
         this.day = day;
         this.month = month;
         this.year = year;
     }
-    public file1_old(file1_old p2) {
+    public file1(file1 p2) {
         this.day = p2.day;
         this.month = p2.month;
         this.year = p2.year;
@@ -29,7 +29,7 @@ public class file1_old {
             default: return 0;
         }
     }
-    public file1_old(String m) {
+    public file1(String m) {
         if (m == null) throw new IllegalArgumentException("Date null");
         m = m.trim();
         if (m.contains("/")) slash(m);
