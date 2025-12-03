@@ -1,0 +1,14 @@
+<TEST NAME="TEST05" FILE="File05.py">
+  <VERSION NUMBER="1" CHECKED="TRUE">
+    <LOCATION ORIG="1" NEW="1" />
+    <LOCATION ORIG="2" NEW="2" />
+    <LOCATION ORIG="3" NEW="4" />
+    <LOCATION ORIG="4" NEW="3" />
+    <LOCATION ORIG="5" NEW="5" />
+    <LOCATION ORIG="6" NEW="6" />
+    <LOCATION ORIG="7" NEW="7" />
+    <LOCATION ORIG="8" NEW="8" />
+    <LOCATION ORIG="9" NEW="9" />
+    <LOCATION ORIG="10" NEW="10" />
+  </VERSION>
+</TEST>
