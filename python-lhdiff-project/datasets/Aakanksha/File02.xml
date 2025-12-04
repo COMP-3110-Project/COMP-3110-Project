@@ -1,6 +1,6 @@
 <TEST NAME="TEST02" FILE="File02.py">
  <VERSION NUMBER="1" CHECKED="TRUE">
-   <LOCATION ORIG="1" NEW="-1" />
+   <LOCATION ORIG="1" NEW="1" />
    <LOCATION ORIG="3" NEW="3" /> 
    <LOCATION ORIG="4" NEW="4" />
    <LOCATION ORIG="5" NEW="5" /> 
@@ -11,11 +11,5 @@
    <LOCATION ORIG="11" NEW="15" />
    <LOCATION ORIG="12" NEW="-1" />  
    <LOCATION ORIG="14" NEW="17" /> 
-   <LOCATION ORIG="-1" NEW="1" /> 
-   <LOCATION ORIG="-1" NEW="7" />
-   <LOCATION ORIG="-1" NEW="8" />
-   <LOCATION ORIG="-1" NEW="9" />
-   <LOCATION ORIG="-1" NEW="10" />
-   <LOCATION ORIG="-1" NEW="13" />
 </VERSION>
 </TEST>

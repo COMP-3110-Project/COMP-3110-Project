@@ -242,13 +242,6 @@ class LHDiff:
                     print(f"{old_num:<12} {target + 1}")
             else:
                 print(f"{old_num:<12} -1")
-        
-        for j, line in enumerate(self.new_lines):
-            if line['is_empty']: continue
-            
-            if j not in self.matched_new:
-                new_num = j + 1
-                print(f"{'-1':<12} {new_num}")
 
 if __name__ == "__main__":
     if len(sys.argv) == 3:

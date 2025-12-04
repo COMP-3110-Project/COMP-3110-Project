@@ -1,4 +1,4 @@
-# File03_New.py - Methods Reordered
+# File03_New.py
 
 class File03:
     def add(self, a, b):  # This method is now first

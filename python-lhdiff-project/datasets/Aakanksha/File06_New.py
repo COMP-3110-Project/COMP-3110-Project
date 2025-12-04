@@ -1,4 +1,4 @@
-# File06_New.py - Renaming
+# File06_New.py
 
 class File06:
     def __init__(self, name):

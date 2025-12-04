@@ -1,4 +1,4 @@
-# File05_New.py - Line Merging
+# File05_New.py
 
 class File05:
     def build_greeting(self, name):
