@@ -7,7 +7,7 @@ import html
 class SZZVisualizer:
     def __init__(self, repo_path):
         self.repo_path = repo_path
-        self.fix_keywords = r"(?i)(fix|solved|closed|resolved|patch|bug|issue|error|typo|#\d+)"
+        self.fix_keywords = r"(?i)(fix|solved|closed|resolved|patch)"
         self.results = []
         self.repo_url = self.get_remote_url()
 
