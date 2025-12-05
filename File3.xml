@@ -1,0 +1,37 @@
+<TEST NAME="TEST03" FILE="File3.py">
+    <VERSION NUMBER="1" CHECKED="TRUE">
+        <LOCATION ORIG="1" NEW="1" />
+        <LOCATION ORIG="2" NEW="3" />
+        <LOCATION ORIG="3" NEW="4" />
+        <LOCATION ORIG="4" NEW="5" />
+        <LOCATION ORIG="5" NEW="-1" />
+        <LOCATION ORIG="6" NEW="-1" />
+        <LOCATION ORIG="7" NEW="8" />
+        <LOCATION ORIG="8" NEW="-1" />
+        <LOCATION ORIG="9" NEW="-1" />
+        <LOCATION ORIG="10" NEW="-1" />
+        <LOCATION ORIG="11" NEW="-1" />
+        <LOCATION ORIG="12" NEW="-1" />
+        <LOCATION ORIG="13" NEW="-1" />
+        <LOCATION ORIG="14" NEW="-1" />
+        <LOCATION ORIG="15" NEW="-1" />
+        <LOCATION ORIG="16" NEW="18" />
+        <LOCATION ORIG="17" NEW="19" />
+        <LOCATION ORIG="18" NEW="-1" />
+        <LOCATION ORIG="19" NEW="-1" />
+        <LOCATION ORIG="20" NEW="23" />
+        <LOCATION ORIG="21" NEW="24" />
+        <LOCATION ORIG="22" NEW="25" />
+        <LOCATION ORIG="23" NEW="26" />
+        <LOCATION ORIG="24" NEW="27" />
+        <LOCATION ORIG="25" NEW="-1" />
+        <LOCATION ORIG="26" NEW="28" />
+        <LOCATION ORIG="27" NEW="16" />
+        <LOCATION ORIG="28" NEW="29" />
+        <LOCATION ORIG="29" NEW="30" />
+        <LOCATION ORIG="30" NEW="22" />
+        <LOCATION ORIG="31" NEW="31" />
+        <LOCATION ORIG="32" NEW="32" />
+        <LOCATION ORIG="33" NEW="33" />
+    </VERSION>
+</TEST>
