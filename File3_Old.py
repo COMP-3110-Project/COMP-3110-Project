@@ -1,39 +1,33 @@
-# File4 Digital Library Test (OLD version)
-# This file simulates the Java DigitalLibraryTest class in Python.
-
+# File3 helper demo
+def print_array(values):
+    for i, value in enumerate(values):
+        print(f"Value {i}: {value}")
+def sum_values(values):
+    result = 0
+    for value in values:
+        result += value
+    return result
+def average(values):
+    if len(values) == 0:
+        return 0.0
+    result = sum_values(values)
+    return result / float(len(values))
+def index_of(values, target):
+    for i, value in enumerate(values):
+        if value == target:
+            return i
+    return -1
 def main():
-    library = DigitalLibrary()
-
-    library.addMedia(Book("ADHD coach", "Self-Help", 2018, 5, "James Clear", "1234567890"))
-    library.addMedia(Movie("fright", "Sci-Fi", 2010, 5, "Christopher Nolan", 148, "PG-13"))
-    library.addMedia(Podcast("day", "News", 2022, 4, "Michael Barbaro", 1000))
-    library.addMedia(MusicAlbum("25", "Pop", 2015, 5, "Adele", 11, "2015-11-20"))
-
-    print("\nAll Media Items:")
-    for item in library.getAllItems():
-        print(item)
-
-    found = library.searchByTitle("fright")
-    if found:
-        print("\nFound:", found)
-    else:
-        print("\nItem 'Inception' not found.")
-
-    print("\nSorted by Title:")
-    library.sortByTitle()
-    for item in library.getAllItems():
-        print(item)
-
-    print("\nFiltered by Genre 'Pop':")
-    for item in library.filterByGenre("Pop"):
-        print(item)
-
-    print("\nRecommended by Rating (≥ 5):")
-    for item in library.recommendByRating(5):
-        print(item)
-
-    print("\nRemoving 'Atomic Habits':",
-        library.removeMedia(Book("atomic habits", "Self-Help", 2018, 5, "James Clear", "1234567890")))
-
+    print("File3 demo starting.")
+    numbers = [2, 4, 6, 8, 10]
+    print_array(numbers)
+    total = sum_values(numbers)
+    avg = average(numbers)
+    print("Total:", total)
+    print("Average:", avg)
+    target = 6
+    index = index_of(numbers, target)
+    print("Index of", target, ":", index)
+    print("File3 demo finished.")
 if __name__ == "__main__":
     main()
