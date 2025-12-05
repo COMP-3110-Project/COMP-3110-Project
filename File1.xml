@@ -55,8 +55,5 @@
     <LOCATION ORIG="53" NEW="-1" />
     <LOCATION ORIG="54" NEW="-1" />
     <LOCATION ORIG="55" NEW="-1" />
-    <LOCATION ORIG="-1" NEW="8"  />
-    <LOCATION ORIG="-1" NEW="12" />
-    <LOCATION ORIG="-1" NEW="13" />
   </VERSION>
 </TEST>
