@@ -1,4 +1,4 @@
-# File04_New.py - Line Splitting
+# File04_New.py
 
 class File04:
     def process_configuration(self, host, port, username, password):

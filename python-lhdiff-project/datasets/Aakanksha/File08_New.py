@@ -1,4 +1,4 @@
-# File08_New.py - Mixed Complex Changes
+# File08_New.py
 
 from time import time
 

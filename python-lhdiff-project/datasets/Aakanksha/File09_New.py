@@ -1,4 +1,4 @@
-# File09_New.py - No changes from Old
+# File09_New.py
 
 class File09:
     def do_nothing(self):

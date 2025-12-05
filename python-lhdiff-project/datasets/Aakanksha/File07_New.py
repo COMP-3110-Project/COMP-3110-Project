@@ -1,4 +1,4 @@
-# File07_New.py - Comments and Whitespace changes
+# File07_New.py
 
 class File07:
     # This method performs a simple arithmetic operation.

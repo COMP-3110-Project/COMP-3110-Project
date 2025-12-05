@@ -1,4 +1,4 @@
-# File02_New.py - Deletions and Insertions
+# File02_New.py
 
 class File02:
     def process_data(self, data):
