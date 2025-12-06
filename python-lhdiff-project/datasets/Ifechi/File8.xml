@@ -1,0 +1,12 @@
+<TEST NAME="TEST8" FILE="File8.py" TYPE="CLASS">
+    <VERSION NUMBER="1" CHECKED="TRUE">
+        <LOCATION ORIG="1" NEW="1" />
+        <LOCATION ORIG="2" NEW="2" />
+        <LOCATION ORIG="3" NEW="3" />
+        <LOCATION ORIG="5" NEW="-1" />
+        <LOCATION ORIG="6" NEW="6" /> <!-- Comment changed -->
+        <LOCATION ORIG="7" NEW="7" />
+        <LOCATION ORIG="9" NEW="10" />
+        <LOCATION ORIG="10" NEW="11" />
+    </VERSION>
+</TEST>
