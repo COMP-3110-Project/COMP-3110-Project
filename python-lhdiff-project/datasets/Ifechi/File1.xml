@@ -1,0 +1,14 @@
+<TEST NAME="TEST1" FILE="File1.py" TYPE="CLASS">
+ <VERSION NUMBER="1" CHECKED="TRUE">
+    <LOCATION ORIG="1" NEW="1" />
+    <LOCATION ORIG="2" NEW="3" /> <!-- new line white space change-->
+    <LOCATION ORIG="3" NEW="4" /> 
+    <LOCATION ORIG="5" NEW="7" />
+    <LOCATION ORIG="6" NEW="8" />
+    <LOCATION ORIG="8" NEW="10" />
+    <LOCATION ORIG="9" NEW="11" />
+    <LOCATION ORIG="11" NEW="13" />
+    <LOCATION ORIG="12" NEW="15" /> <!-- new line white space change-->
+    <LOCATION ORIG="13" NEW="16" />
+</VERSION>
+</TEST>
