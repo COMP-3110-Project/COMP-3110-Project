@@ -7,7 +7,7 @@ from lhdiff import LHDiff  # Imports your LHDiff class from lhdiff.py
 class TestLHDiffDataset(unittest.TestCase):
     
     # Configuration: Path to your dataset folder
-    DATASET_DIR = "Datasets/Aakanksha"
+    DATASET_DIR = "Datasets/Ifechi"
 
     def setUp(self):
         """Checks if dataset directory exists before running tests."""
