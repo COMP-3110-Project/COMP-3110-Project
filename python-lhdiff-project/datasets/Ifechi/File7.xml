@@ -7,13 +7,13 @@
         <LOCATION ORIG="5" NEW="5" />
         <LOCATION ORIG="6" NEW="-1" />
         <LOCATION ORIG="7" NEW="-1" />
-        <LOCATION ORIG="8" NEW="-1" />
-        <LOCATION ORIG="9" NEW="6" /> <!-- Content changed-->
+        <LOCATION ORIG="8" NEW="6" />
+        <LOCATION ORIG="9" NEW="-1" /> <!-- Content changed-->
         <LOCATION ORIG="10" NEW="7" />
         <LOCATION ORIG="12" NEW="10" />
         <LOCATION ORIG="13" NEW="11" /> 
-        <LOCATION ORIG="14" NEW="14" />
-        <LOCATION ORIG="16" NEW="15" />
+        <LOCATION ORIG="14" NEW="-1" />
+        <LOCATION ORIG="16" NEW="13" />
         <LOCATION ORIG="17" NEW="14" />
         <LOCATION ORIG="18" NEW="15" />
         <LOCATION ORIG="20" NEW="17" />
