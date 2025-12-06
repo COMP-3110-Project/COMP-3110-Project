@@ -4,7 +4,7 @@ import os
 import sys
 import html
 
-class SZZVisualizer:
+class BonusVisualizer:
     def __init__(self, repo_path):
         self.repo_path = repo_path
         self.fix_keywords = r"(?i)(fix|solved|closed|resolved|patch)"
@@ -171,17 +171,17 @@ class SZZVisualizer:
         </html>
         """
 
-        output_file = os.path.join(self.repo_path, "szz_report.html")
+        output_file = os.path.join(self.repo_path, "bonus_report.html")
         # If repo path is just "." write to current dir
-        if self.repo_path == ".": output_file = "szz_report.html"
+        if self.repo_path == ".": output_file = "bonus_report.html"
         
-        with open("szz_report.html", "w", encoding="utf-8") as f:
+        with open("bonus_report.html", "w", encoding="utf-8") as f:
             f.write(html_content)
         
-        print(f"\n[SUCCESS] Report generated: {os.path.abspath('szz_report.html')}")
+        print(f"\n[SUCCESS] Report generated: {os.path.abspath('bonus_report.html')}")
         print("Open this file in your browser to verify the results.")
 
 if __name__ == "__main__":
     path = sys.argv[1] if len(sys.argv) > 1 else "."
-    visualizer = SZZVisualizer(path)
+    visualizer = BonusVisualizer(path)
     visualizer.analyze()
