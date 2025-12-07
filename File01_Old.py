@@ -1,8 +1,8 @@
 # File01_Old.py
 
-def uottawa_grade(points):
-    total = points + 5
+def uottawa_final(points):
+    total = points + 10
     return total
-print(uottawa_grade(80))
+print(uottawa_final(80))
 # Bonus applied
 print("Final grade ready")
