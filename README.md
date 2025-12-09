@@ -12,5 +12,6 @@ commands to run test cases:
 commands to run bonus:
 1. cd into python-lhdiff-project/bonus folder
 2. python bug_detector.py ./gson
+3. Open bonus_report.html to see dashboard
 
 # Step2_Step3
