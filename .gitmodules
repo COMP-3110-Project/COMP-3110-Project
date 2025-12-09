@@ -1,0 +1,3 @@
+[submodule "python-lhdiff-project/bonus/gson"]
+    path = python-lhdiff-project/bonus/gson
+    url = https://github.com/google/gson.git
