@@ -2,7 +2,7 @@ import unittest
 import os
 import glob
 import xml.etree.ElementTree as ET
-from lhdiff import LHDiff  # Imports your LHDiff class from lhdiff.py
+from lhdiff import LHDiff
 
 class TestLHDiffDataset(unittest.TestCase):
 
