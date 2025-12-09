@@ -6,9 +6,8 @@
     <LOCATION ORIG="5" NEW="-1" />    
     <LOCATION ORIG="6" NEW="8" />
     <LOCATION ORIG="7" NEW="-1" />
-    <LOCATION ORIG="8" NEW="-1" />
-    <LOCATION ORIG="9" NEW="-1" />
-    <LOCATION ORIG="10" NEW="11" />
+    <LOCATION ORIG="8" NEW="10" />
+    <LOCATION ORIG="9" NEW="11" />
     <LOCATION ORIG="11" NEW="13" />
     <LOCATION ORIG="12" NEW="14" />
     <LOCATION ORIG="13" NEW="15" />
