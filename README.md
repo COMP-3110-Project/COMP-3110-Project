@@ -15,4 +15,5 @@ commands to run bonus:
 3. Open bonus_report.html to see dashboard
 
 To see bonus report for gson repository: https://comp-3110-project.github.io/COMP-3110-Project/python-lhdiff-project/bonus/bonus_report.html
-# Step2_Step3
+
+- Aakanksha
