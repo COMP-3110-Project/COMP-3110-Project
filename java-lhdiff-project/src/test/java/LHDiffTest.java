@@ -26,7 +26,7 @@ public class LHDiffTest {
     // Use this path variable to point to your folder
     // Note: If running from IDE, ".." usually goes up from the Project Root.
     // Adjust as necessary for your folder structure.
-    private static final String DATASET_PATH = "../datasets/Aakanksha";
+    private static final String DATASET_PATH = "./datasets/Aakanksha";
 
     @BeforeEach
     public void setUpStreams() {
