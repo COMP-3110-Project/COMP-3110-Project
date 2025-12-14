@@ -1,5 +1,5 @@
 # COMP-3110-Project
-Group 21 Document: https://docs.google.com/document/d/1v2ZnNEi4OqX4airqPOmTqdIYanzd0uZt1qmrwbIpIDY/edit?tab=t.0
+Group 21 Documentation: https://docs.google.com/document/d/1v2ZnNEi4OqX4airqPOmTqdIYanzd0uZt1qmrwbIpIDY/edit?tab=t.0
 
 commands to run the python project:
 1. cd into python-lhdiff-project folder
